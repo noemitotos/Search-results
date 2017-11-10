@@ -1,0 +1,1162 @@
+<!doctype html>
+<!-- paulirish.com/2008/conditional-stylesheets-vs-css-hacks-answer-neither/ -->
+<!--[if lt IE 7]> <html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]>    <html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]>    <html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!-- Consider adding a manifest.appcache: h5bp.com/d/Offline -->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en"> <!--<![endif]-->
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="google-site-verification" content="SDZw8ctU9EbRKue7tarfq8Od-f4O_qacus3oTZBdocY" />
+	<meta name="p:domain_verify" content="bd36d047788f4464cd76e923d6012444"/>
+  	<meta name="format-detection" content="telephone=no">
+    <meta name="google-site-verification" content="ejdwH-eSSZG1zzeU2hp3j1cLzPSZetxG1GWBMjAFc_g" />
+
+	<title>
+      	{% if template contains "watch-landing" %}
+      		{{ page.title }} | Official {{ page.title | remove: ' Watches' }} UK Stockist
+      	{% elsif page_title %}
+      		{{ page_title }}
+      	{% elsif template == "page" %}
+			{{page.title}}
+		{% elsif template == "blog" %}
+			{{blog.title}}
+		{% elsif template == "article" %}
+			{{article.title}}
+		{% elsif template == "product" %}
+			{{product.title}}
+		{% elsif template == "collection" %}
+			{{collection.title}}
+        {% elsif template == "collection.type" %}
+      		{{collection.title}}
+      	{% elsif template == "collection.brand" %}
+      		{{ collection.title }}
+		{% endif %}
+      {% if template != "index" %} | {{shop.name}} Fine Jewellery{% endif %}      
+	</title>
+  
+  
+  
+  {% comment %}
+   	{% case template %}
+   	{% when 'collection' %}<title>{{collection.title}}</title>
+	{% endcase %}
+  {% endcomment %}
+  
+  
+  
+
+  <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  
+  	
+                {% comment %}
+                  <!-- If we're on a product page or a blog post, output the first 160 characters of it's description / article -->
+                  {% if page_description %}
+                      <meta name="description" content="{{ page_description }}" />
+                  {% elsif template == "product" %}
+                      <meta name="description" content="{{ product.description | strip_html | truncate: 150 }}" />
+                  {% elsif template == "article" %}
+                      <meta name="description" content="{{ article.content | strip_html | truncate: 150 }}" />
+                  {% elsif template == "collection.brand-old" %}
+                      <meta name="description" content="Official stockists and specialists in fine jewellery and luxury watches. Full collection of {{ collection.title }} jewellery available to buy online. Designer collections in stock today, Free Next day delivery, Up to 4 years 0% finance" />
+                  {% elsif template == "collection.type" %}
+                      <meta name="description" content="Official stockists and specialists in fine jewellery and luxury watches. Full collection of {{ collection.title }} available to buy online. Designer collections in stock today, Free Next day delivery, Up to 4 years 0% finance" />
+                  {% elsif template == "collection.header" %}
+  					  <meta name="description" content="Large selection of handmade and diamond {{ collection.title }} in stock available to buy online. Award winning designs, Up to 4 years 0% finance and free delivery " />
+  				  {% elsif template == "collection" %}
+                      <meta name="description" content="Official stockists and specialists in fine jewellery and luxury watches. Full collection of {{ collection.title }} available to buy online. Designer collections in stock today, Free Next day delivery, Up to 4 years 0% finance" />
+                  {% else %}
+                      <!--<meta name="description" content="{{ settings.meta_description }}">-->
+                      <meta name="description" content="{{ shop.description }}" />
+                  {% endif %}
+                {% endcomment %}
+  
+  
+  	{% comment %}
+  	{% assign stone_collection = false %}
+  	{% if template == "collection" or template == "collection.type" or template == "collection.brand-old" %}
+  		{% if collection.handle == "amber-jewellery-collection" or collection.handle == "blue-john" or collection.handle == "coloured-stones" or collection.handle == "coquina" or collection.handle == "diamonds" or collection.handle == "emerald" or collection.handle == "preseli-bluestone" or collection.handle == "ruby" or collection.handle == "sapphire" or collection.handle == "tivon"  or collection.handle == "turquoise-collection" or collection.handle == "jet" %}
+  			{% assign stone_collection = true %}
+  		{% endif %}
+  	{% endif %}
+  	{% endcomment %}
+  
+  
+  	<!-- Meta descriptions -->
+    {% if template == "product" %}
+  		{% if product.vendor contains "C W Sellors" %}
+  			<meta name="description" content="{{ product.title }}, {{ product.variants.first.sku }} in stock and available to buy online today from {{ product.price |  times:settings.vatrate  | money | strip_html | replace: '&pound;', '£' }} with free UK delivery." />
+  		{% else %}
+    		<meta name="description" content="{{ product.title }}, {{ product.variants.first.sku }} available to buy online today with free UK delivery {{ product.price |  times:settings.vatrate  | money | strip_html | replace: '&pound;', '£' }}{% if product.variants.first.inventory_quantity > 0 %}. In stock{% endif %}" />
+    	{% endif %}
+  	{% elsif template == "collection.brand-old" or template == "collection.brand" %}
+  		<meta name="description" content="Full collection of {{ collection.title }} Jewellery in stock, available to buy online. Up to 4 years 0% finance with free next day delivery available on {{ collection.title }}." />
+  	{% elsif template == "collection.stone" %}
+  		<meta name="description" content="{{ collection.title }} Jewellery specialists. Award winning handmade designer Jewellery collections of {{ collection.title }} in stock available to buy online today with free UK delivery." />
+  	{% elsif template == "collection.type" or template == "collection" %}
+  		<meta name="description" content="{{ collection.title }} specialists. Award winning handmade designer Jewellery collections of {{ collection.title }}, in stock available to buy online with free UK delivery." />
+  	{% elsif template == "article" %}
+		<meta name="description" content="{{ article.content | strip_html | truncate: 150 }}" />
+  	{% elsif template == "page.watch-landing-page" or template == "page.watch-landing-page-mens-only" %}
+  		<meta name="description" content="Authorised stockist of {{ page.title }}. Full collection {{ page.title }} to buy online, with up to 4 years 0% finance, and Free UK delivery on {{ page.title }}." />
+  	{% else %}
+  		<meta name="description" content="{{ shop.description }}" />
+  	{% endif %}
+  	<!-- end Meta descriptions -->  
+  
+  
+	<!-- If product page, output that products tags as the META tags, otherwise use normal ones -->
+	{% if template == "product" %}
+		<meta name="keywords" content="{% for tag in product.tags %}{{tag}}, {% endfor %}" />
+	{% else %}
+		<meta name="keywords" content="{{ settings.meta_keywords }}">
+	{% endif %}
+  
+<!-- Adform Tracking Code BEGIN -->
+<script type="text/javascript">
+var _adftrack = {
+    pm: 190036,
+    pagename: encodeURIComponent('<WebsiteName>|<SectionName>|<SubSection1>|...|<SubSectionX>|<PageName>'),
+    divider: encodeURIComponent('|')
+};
+(function(){var s=document.createElement('script');s.type='text/javascript';s.async=true;s.src='https://track.adform.net/serving/scripts/trackpoint/async/';var x = document.getElementsByTagName('script')[0];x.parentNode.insertBefore(s, x);})();
+</script>
+<noscript>
+    <p style="margin:0;padding:0;border:0;">
+        <img src="https://track.adform.net/Serving/TrackPoint/?pm=190036&amp;ADFPageName=<WebsiteName>|<SectionName>|<SubSection1>|...|<SubSectionX>|<PageName>&amp;ADFdivider=|" width="1" height="1" alt="" />
+    </p>
+</noscript>
+<!-- Adform Tracking Code END -->
+  
+ 
+	<!-- Mobile viewport optimized: h5bp.com/viewport -->
+  	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+	<!--Favicons-->
+	<!--As we don't have access to the root directory (mathiasbynens.be/notes/touch-icons) we need to specify icons-->
+	<!-- For iPhone 4 with high-resolution Retina display: -->
+	<link rel="apple-touch-icon-precomposed" sizes="114x114" href="assets/apple-touch-icon-114x114-precomposed.png">
+	<!-- For first-generation iPad: -->
+	<link rel="apple-touch-icon-precomposed" sizes="72x72" href="assets/apple-touch-icon-72x72-precomposed.png">
+	<!-- For non-Retina iPhone, iPod Touch, and Android 2.1+ devices: -->
+	<link rel="apple-touch-icon-precomposed" href="assets/apple-touch-icon-precomposed.png">
+	<link href='//fonts.googleapis.com/css?family=Raleway:400,100,200,300,500,600' rel='stylesheet' type='text/css'>
+	<link href='//fonts.googleapis.com/css?family=Lato:400,300,100,700,900' rel='stylesheet' type='text/css'>
+  	{{ 'skin.css' | asset_url | stylesheet_tag }}
+	{{ 'reset.css' | asset_url | stylesheet_tag }}
+	<link rel="stylesheet" href="//code.jquery.com/ui/1.10.3/themes/smoothness/jquery-ui.css" />
+	
+  	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+  
+	{{ 'colorbox.css' | asset_url | stylesheet_tag }}
+	{{ 'flexslider.css' | asset_url | stylesheet_tag }}
+	<!-- {{ 'jquery.megamenu.css' | asset_url |stylesheet_tag }} -->
+	{{ 'style-mlc.css' | asset_url | stylesheet_tag }}
+	{{ 'style.css' | asset_url | stylesheet_tag }}
+	<!-- {{ 'customer.css' | shopify_asset_url | stylesheet_tag }} -->
+  	{{ 'responsive-styles.css' | asset_url | stylesheet_tag }}
+  	{{ 'new-design-styles.css' | asset_url | stylesheet_tag }}
+
+	<!-- More ideas for your <head> here: h5bp.com/d/head-Tips -->
+
+	<!-- All JavaScript at the bottom, except this Modernizr build.
+	Modernizr enables HTML5 elements & feature detects for optimal performance.
+	Create your own custom Modernizr build: www.modernizr.com/download/ -->
+	{{ 'modernizr-2.5.3.min.js' | asset_url | script_tag }}
+
+	<!-- Grab Google CDN's jQuery, with a protocol relative URL; fall back to local if offline -->
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<!-- {{ 'jquery-1.7.1.min.js' | asset_url | script_tag }} -->
+	<script src="//code.jquery.com/ui/1.9.2/jquery-ui.js"></script>
+	<!--Bring in the autocomplete code from http://docs.jquery.com/Plugins/autocomplete-->
+	{{ 'jquery.autocomplete.min.js' | asset_url | script_tag }}
+
+	<!--Bring in Colorbox, modal window for Jquery, for more info see http://jacklmoore.com/colorbox/-->
+	{{ 'jquery.colorbox-min.js' | asset_url | script_tag }}
+
+	<!--Bring in Flexslider, responsive slider / carousel for Jquery, for more info see http://flex.madebymufffin.com/-->
+	{{ 'jquery.flexslider-min.js' | asset_url | script_tag }}
+
+  	{{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+	{{ 'plugins.js' | asset_url | script_tag }}
+	{{ "jquery.cookie.js" | asset_url | script_tag }}
+	{{ 'jquery.knob.js' | asset_url | script_tag }}
+	{{ 'jquery.megamenu.js' | asset_url | script_tag }}
+	{{ 'jquery.bxslider.min.js' | asset_url | script_tag }}
+    {% if template contains 'search' %}
+        {{ "underscore.js" | asset_url | script_tag }}
+    {% endif %}
+	{{ 'jquery.jcarousel.min.js' | asset_url | script_tag }}
+  	{{ 'jquery.customSelect.min.js' | asset_url | script_tag }}
+  	{{ 'jquery.ui.touch-punch.min.js' | asset_url | script_tag }}
+	{{ 'functions.js' | asset_url | script_tag }}
+	{% if template contains 'customers' %}
+    {{ "shopify_common.js" | shopify_asset_url | script_tag }}
+    {{ "customer_area.js"  | shopify_asset_url | script_tag }}
+  {% endif %}
+
+	<!--RSS feeds-->
+	<!--You can have multiple blogs using Shopify, for which you will need multiple feeds. The default name for your first blog is "news" if you
+	change the name in Shopify, make sure it's changed here-->
+	<link rel="alternate" type="application/rss+xml" title="BLOG FEED TITLE" href="//SHOPNAME.myshopify.com/blogs/news.atom" />
+	<!--Ensure a Shopify Smart Collection has been created called 'all' which contains all products (also used for the auto complete function)-->
+	<link rel="alternate" type="application/rss+xml" title="PRODUCT FEED TITLE" href="//SHOPNAME.myshopify.com/collections/all.atom" />
+
+	<!--Site Map-->
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml" />
+
+	{{ content_for_header }}
+
+<!-- Added by Lexity. DO NOT REMOVE/EDIT -->
+<meta name="google-site-verification" content="MfT3T1u_VHbY1QHrfhk7aNQVANybsbfsTA2QIT_5o2s" />
+<script type="text/javascript">
+(function (d, w) {
+  var x = d.getElementsByTagName('SCRIPT')[0], g = d.createElement('SCRIPT'); 
+  g.type = 'text/javascript';
+  g.async = true;
+  g.src = ('https:' == d.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+  x.parentNode.insertBefore(g, x);
+}(document, window));
+</script>
+<!-- End of addition by Lexity. DO NOT REMOVE/EDIT -->
+  
+<script type="text/javascript">
+    //<!--
+    //document.write(unescape("%3Cscript id='omniaff_o789258' src='" + (("https:" == document.location.protocol) ? "https://" : "http://") +  "cwsellors.myomnistar.com/track.js' type='text/javascript'%3E%3C/script%3E"));
+    //--> </script>
+  
+  
+  
+  <!--Start of Zopim Live Chat Script-->
+<script type="text/javascript">
+window.$zopim||(function(d,s){var z=$zopim=function(c){z._.push(c)},$=z.s=
+d.createElement(s),e=d.getElementsByTagName(s)[0];z.set=function(o){z.set.
+_.push(o)};z._=[];z.set._=[];$.async=!0;$.setAttribute("charset","utf-8");
+$.src="//v2.zopim.com/?3UWv0bEZOEWwnA2Dor1aFmZPAVU1qkWR";z.t=+new Date;$.
+type="text/javascript";e.parentNode.insertBefore($,e)})(document,"script");
+</script>
+<!--End of Zopim Live Chat Script-->
+  
+  
+  
+
+<script>window.mlvedaShopCurrency = "{{ shop.currency }}";
+window.supported_currencies = "{{ settings.supported_currencies }}";
+</script>
+<!-- Place this tag in your head or just before your close body tag. -->
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+  
+  <meta name="google-site-verification" content="79t8AVym9Vey-datfmvSRQpo3sGQPp-uY5mFTBHr_qg" />
+  
+  {% include 'open-graph' %}
+  {% include 'twitter-cards' %}
+  
+  
+  <!-- Recently viewed products -->
+  {{ '//ajax.aspnetcdn.com/ajax/jquery.templates/beta1/jquery.tmpl.min.js' | script_tag }}
+  {{ 'jquery.products.js' | asset_url | script_tag }}
+
+  {% if template contains 'product' %}
+
+    <script>
+    Shopify.Products.recordRecentlyViewed();
+    </script>
+
+  {% endif %}
+  <!-- end Recently viewed products -->
+  
+{% include 'sca-quick-view-init' %}
+  
+  <!-- TrustBox script --> 
+<script type="text/javascript" src="//widget.trustpilot.com/bootstrap/v5/tp.widget.sync.bootstrap.min.js" async></script>
+<!-- End Trustbox script -->
+  
+  <!-- yieldify -->
+  <script>
+(function(d) { var e = d.createElement('script'); e.src = d.location.protocol + '//app.yieldify.com/yieldify/code.js?w_uuid=f279b131-de02-4cd8-8438-af340b508cf8&loca='+window.location.href; e.async = true; d.getElementsByTagName("head")[0].appendChild(e); }(document));
+</script>
+  
+ </head>
+
+<body class="template-{{ template }}">
+  <div id="fb-root"></div>
+<script>(function(d, s, id) {
+  var js, fjs = d.getElementsByTagName(s)[0];
+  if (d.getElementById(id)) return;
+  js = d.createElement(s); js.id = id;
+  js.src = "//connect.facebook.net/en_GB/sdk.js#xfbml=1&appId=84742987270&version=v2.0";
+  fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));</script>
+  
+
+  
+  
+  
+	<!-- Prompt IE 6 users to install Chrome Frame. Remove this if you support IE 6.
+	chromium.org/developers/how-tos/chrome-frame-getting-started -->
+	<!--[if lt IE 7]><p class=chromeframe>Your browser is <em>ancient!</em> <a href="http://browsehappy.com/">Upgrade to a different browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">install Google Chrome Frame</a> to experience this site.</p><![endif]-->
+<div id="header-top-full-width">
+		<div id="header-top-wrap" class="clearfix">
+			<!--<div id="header-top-left">
+				<div id="header-top-finance">
+                  <p><a class="finance-head" href="/pages/finance"><span>0&#37;</span> finance available</a></p>
+				</div>--> <!-- #header-top-finance -->
+				<!--<div id="header-top-tel">
+					<p>tel: <span>01335 453453</span></p>
+				</div>--> <!-- #header-top-tel -->
+			<!--</div>--> <!-- #header-top-left -->
+          	<div id="header-top-left">
+<!--               <a href="/pages/christmas-wishes-2016">christmas wishes 2016 Registration</a> -->
+<!--               <a href="https://www.cwsellorsjewellery.co.uk/">Become a CW Sellors Fine Jewellery Stockist </a> -->
+          	</div>
+			<div id="header-top-right">
+<!--               	<div id="header-top-events">
+                  <p><a href="/pages/christmas-wishes-2016">christmas wishes/Events</a></p>
+              	</div> -->
+              	<div id="header-top-contact">
+                  <p><a href="/pages/contact">contact</a></p>  
+              	</div>
+              	<div id="header-top-news">
+                  <p><a href="/blogs/c-w-sellors">news</a></p>
+              	</div>
+				<div id="header-top-store">
+					<p><a href="/pages/store-locator">store locator</a></p>
+				</div> <!-- #header-top-store -->
+				<div id="header-top-account">
+					<p>
+						
+						  {% if customer %}
+						    <a href="/account">Welcome {{ customer.first_name }}</a> | {{ "Logout" | customer_logout_link }}
+						  {% else %}
+						    {{ "Login" | customer_login_link }} {{ "Sign up" | customer_register_link }}
+						  {% endif %}
+						
+					</p>
+				</div> <!-- #header-top-account -->
+				<div id="header-top-basket">
+					<a href="/cart"><p><i class="fa fa-shopping-cart"></i>&nbsp;&nbsp;shopping basket: <span>{{ cart.item_count }} {{ cart.item_count | pluralize: 'Item', 'Items' }}</span></p></a>
+				</div> <!-- #header-top-basket -->
+				<div id="header-top-search">
+					<form id="search" action="/search">
+						<label for="search_text">Search</label>
+						<input id="search_text" name="q" type="text" value="Search Store" onfocus="if (this.value == 'Search Store') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Store';}" />
+						<input type="hidden" name="type" value="product">
+                      	<input id="search_submit" type="submit" border="0" class="fa" value="&#xf002;" alt="Submit Search"/>
+					</form>
+				</div> <!-- #header-top-search -->
+<!-- #header-top-search -->
+			</div> <!-- #header-top-right -->
+		</div> <!-- #header-top-wrap -->
+	</div> <!-- #header-top-full-width -->  
+	<div style="clear: both;"></div> <!-- Clearing Div -->
+	<div id="header-bottom-full-width">
+		<div id="header-bottom-wrap">
+<!-- 			<div id="header-bottom-logo">
+              
+              {% if template == 'product' or template contains 'collection' or template contains 'finance-new' %}
+            	<h3>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h3>
+              {% elsif template == 'article' %}
+              	<h2>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h2>
+              {% else %}
+              	<h1>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h1>
+              {% endif %}
+              
+				<a href="/" id="regular-logo">{{ 'cw-sellors-logo2.png' | asset_url | img_tag: 'fine jewellery diamond engagement rings' }}</a>
+              	<a href="/" id="retina-logo">{{ 'cw-sellors-logo-retina.png' | asset_url | img_tag: 'fine jewellery diamond engagement rings' }}</a>
+              
+              <div id="header-phone">
+                <i class="fa fa-phone"></i>
+                01335 453 453 <span>Phones open until 6:00pm</span>
+              </div>
+			</div>--> <!-- #header-bottom-logo -->
+          
+          
+          <div class="col-320">
+          	<div id="header-phone">
+              <i class="fa fa-phone"></i>
+              01335 453 453 <span>Phones open until 6:00pm</span>
+            </div>
+          </div>
+          
+          <div class="col-320" id="header-bottom-logo">
+          	{% if template == 'product' or template contains 'collection' or template contains 'finance-new' or template contains 'watch-landing-page' %}
+            <h3>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h3>
+            {% elsif template == 'page.watch-landing-page' %}
+            <h3>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h3>
+            {% elsif template == 'article' %}
+            <h2>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h2>
+            {% else %}
+            <h1>C W Sellors Jewellers, fine Jewellery and diamond ring specialists</h1>
+            {% endif %}
+
+            <a href="/" id="regular-logo">{{ 'cw-sellors-logo2.png' | asset_url | img_tag: 'fine jewellery diamond engagement rings' }}</a>
+            <a href="/" id="retina-logo">{{ 'cw-sellors-logo-retina.png' | asset_url | img_tag: 'fine jewellery diamond engagement rings' }}</a>
+          </div>
+          
+          <div class="col-320">
+          	<div id="nav-search">
+              <form id="search" action="/search">
+                <input id="search_text" name="q" type="text" value="{{ search.terms | remove: ' AND -vendor:Archive AND -tag:Insurance' }}" onfocus="if (this.value == 'Search Store') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Store';}" />
+                <input type="hidden" name="type" value="product">
+                <input id="search_submit" type="submit" border="0" value="Search" alt="Submit Search"/>
+              </form>
+            </div>
+          </div>
+          
+			
+		</div> <!-- #header-bottom-wrap -->
+	</div> <!-- #header-bottom-full-width -->
+  	
+  	<div id="nav-full-width">
+      <div id="nav-wrap">
+        <nav>
+          <!--<a id="mobile-menu-btn">Menu</a>-->
+          {% include 'navigation' %}          
+        </nav>
+<!--         <div id="nav-search">
+            <form id="search" action="/search">
+              <input id="search_text" name="q" type="text" value="Search Store" onfocus="if (this.value == 'Search Store') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Store';}" />
+              <input type="hidden" name="type" value="product">
+              <input id="search_submit" type="submit" border="0" value="Search" alt="Submit Search"/>
+            </form>
+          </div> -->
+      </div>
+  	</div> 
+  
+  	{% unless template contains 'index' or template contains 'collection' %}
+  	<div class="collection-services">
+      <ul>
+        <li>0% Interest Free Credit Available</li>
+        <li>Free Next Day Delivery</li>
+        <li>30 Day Money Back Guarantee</li>
+        <li>Free Gift Wrapping Service</li>
+      </ul>
+  	</div>
+  	{% endunless %}
+  
+  	{% if template contains 'collection.housestyle' %}
+  	<div class="collection-services">
+      <ul>
+        <li>0% Interest Free Credit Available</li>
+        <li>Free Next Day Delivery</li>
+        <li>30 Day Money Back Guarantee</li>
+        <li>Free Gift Wrapping Service</li>
+      </ul>
+  	</div>
+  	{% endif %}
+  
+  	<div id="mobile-header">
+      <div id="mobile-header-top">
+<!--         <a class="trade-link" href="https://www.cwsellorsjewellery.co.uk/">Become a CW Sellors Fine Jewellery Stockist</a><br> -->
+        <a href="/pages/contact">Contact</a> | <a href="/pages/christmas-wishes">Events</a> | <a href="/blogs/c-w-sellors">News</a> | <a href="/pages/store-locator">Store Locator</a><!-- | 
+        {% if customer %}
+        	<a href="/account">Welcome {{ customer.first_name }}</a> | {{ "Logout" | customer_logout_link }}
+        {% else %}
+        	{{ "Login" | customer_login_link }} | {{ "Sign up" | customer_register_link }}
+        {% endif %}-->
+      </div>
+      <div id="mobile-logo">
+      	<a href="/">{{ 'cw-sellors-logo-retina.png' | asset_url | img_tag }}</a>
+      </div>
+      <div id="mobile-menu-btn">
+      	<i class="fa fa-bars"></i>
+      </div>
+      <div id="mobile-search-btn">
+      	<i class="fa fa-search"></i>
+      </div>
+      <div id="mobile-basket-btn">
+      	<a href="/cart"><i class="fa fa-shopping-cart"></i></a>
+      </div>
+      <div id="mobile-navigation">
+        <ul>
+          {% for link in linklists.main-menu.links %}
+          <li>
+            {% if link.title contains 'Brand' or link.title contains 'Collection' or link.title contains 'Diamonds' or link.title contains 'Gemstone' or link.title contains 'Rings' or link.title contains 'Earrings' or link.title contains 'Necklaces' or link.title contains 'Bracelets' or link.title contains 'Watches' or link.title contains 'Wedding' %}
+            <a href="{{link.url}}">{{link.title}}</a><span class="sub-menu-btn"><i class="fa fa-chevron-down" aria-hidden="true"></i><i class="fa fa-chevron-up" aria-hidden="true"></i></span>
+            {% else %}
+            <a href="{{link.url}}">{{link.title}}</a>
+            {% endif %}
+            
+            {% if link.title contains 'Brand' %}
+            <ul>
+              <li class="first">Fine Jewellery</li>
+              {% for link in linklists.brand-col-1.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Designer Jewellery Brands</li>
+              {% for link in linklists.brand-col-2.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}  
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Collection' %}
+            <ul>
+              <li class="first">Designer Collections</li>
+              {% for link in linklists.designer-collections.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              <li class="first">Specialist Collections</li>
+              {% for link in linklists.specialist-collection.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              <li class="first">Gemstone</li>
+              {% for link in linklists.collection-gemstones.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}                
+              <li class="first">Shop by</li>
+              {% for link in linklists.shop-by-subcategories.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}                
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Diamonds' %}
+            <ul>
+              <li class="first">Shop By</li>
+              {% for link in linklists.shop-diamonds.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.diamond-metal.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+              <li class="first">Shop By</li>
+              {% for link in linklists.diamond-price.links %}
+              <li><a href="{{ link.url }}">{{ link.title }}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Gemstone' %}
+            <ul>
+              {% for link in linklists.brand-col-3.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Rings' %}
+            <ul>
+              <li class="first">Rings</li>
+              {% for link in linklists.rings.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.rings-metal.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">By Price</li>
+              {% for link in linklists.ring-price-guide.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Fine Jewellery</li>
+              {% for link in linklists.rings-luxury.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Designer Jewellery</li>
+              {% for link in linklists.rings-brands.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Gemstone</li>
+              {% for link in linklists.ring-stones.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Earrings' %}
+            <ul>
+              <li class="first">Earrings</li>
+              {% for link in linklists.earrings.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.earrings-metal.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">By Price</li>
+              {% for link in linklists.earrings-price-guide.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Fine Jewellery</li>
+              {% for link in linklists.earrings-luxury.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Designer Jewellery</li>
+              {% for link in linklists.earrings-brands.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Gemstone</li>
+              {% for link in linklists.earring-stones.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Necklaces' %}
+            <ul>
+              <li class="first">Necklaces</li>
+              {% for link in linklists.necklaces.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.necklaces-metal.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">By Price</li>
+              {% for link in linklists.necklace-price-guide.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Fine Jewellery</li>
+              {% for link in linklists.necklaces-luxury.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Designer Jewellery</li>
+              {% for link in linklists.necklaces-brands.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Gemstone</li>
+              {% for link in linklists.necklace-stones.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Bracelets' %}
+            <ul>
+              <li class="first">Bracelets</li>
+              {% for link in linklists.bracelets.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.bracelets-metal.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">By Price</li>
+              {% for link in linklists.bracelet-price-guide.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Fine Jewellery</li>
+              {% for link in linklists.bracelets-luxury.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Designer Jewellery</li>
+              {% for link in linklists.bracelets-brands.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Gemstone</li>
+              {% for link in linklists.bracelet-stones.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Watches' %}
+            <ul>
+              <li class="first">Luxury Brands</li>
+              {% for link in linklists.watch-brands-col-1.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              {% for link in linklists.watch-brands-col-2.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Classic Brands</li>
+              {% for link in linklists.watch-brands-col-3.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %} 
+              {% for link in linklists.watch-brands-col-4.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %} 
+              <li class="first">Smart Wathces</li>
+              {% for link in linklists.watch-brands-col-5.links %}                              	
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}  
+            </ul>
+            {% endif %}
+
+            {% if link.title contains 'Wedding' %}
+            <ul>
+              <li class="first">Wedding and Engagement</li>
+              {% for link in linklists.wedding.links %}
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Style</li>
+              {% for link in linklists.wedding-ring-style.links %}
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">Metal</li>
+              {% for link in linklists.wedding-metal.links %}
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+              <li class="first">By Price</li>
+              {% for link in linklists.wedding-price-guide.links %}
+              <li><a href="{{link.url}}">{{link.title}}</a></li>
+              {% endfor %}
+            </ul>
+            {% endif %}
+            
+          </li>
+          {% endfor %}
+          <li><a href="/pages/contact">Contact</a></li>
+          <li><a href="/pages/christmas-wishes">Events</a></li>
+          <li><a href="/blogs/c-w-sellors">News</a></li>
+          <li><a href="/pages/store-locator">Store Locator</a></li>
+        </ul>
+      </div>
+      <div id="mobile-search">
+        <form id="mobile-search-form" action="/search">
+          <label for="search_text">Search</label>
+          <input id="search_text" name="q" type="text" value="Search Store" onfocus="if (this.value == 'Search Store') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Search Store';}" />
+          <input type="hidden" name="type" value="product">
+          <input id="search_submit" type="submit" border="0" class="fa" value="&#xf002;" alt="Submit Search"/>
+        </form>
+      </div>
+  	</div><!-- #mobile-header -->
+  
+  	<div style="clear: both;"></div> <!-- Clearing Div -->  
+  
+  	<div id="main-wrapper">
+  
+	{% if template == "index" %}
+		<div id="featured-full-width">
+			<div id="featured-wrap" class="clearfix">
+                <div class="black-banner">
+                  <a href="/pages/online-finance"><span>0% Interest Free Credit Available</span></a> <span>Free Next Day Delivery</span> <span>30 Day Money Back Guarantee</span> <span>Free Gift Wrapping Service</span>
+                </div>
+				<div id="slider" style="visibility: visible;">
+					<div>
+						<a href="{{ settings.homeslider_1_url }}">{{ 'homeslider_1.jpg' | asset_url | img_tag }}</a>
+					</div>
+					<div>
+						<a href="{{ settings.homeslider_2_url }}">{{ 'homeslider_2.jpg' | asset_url | img_tag }}</a>
+					</div>
+					<div>
+						<a href="{{ settings.homeslider_3_url }}">{{ 'homeslider_3.jpg' | asset_url | img_tag }}</a>
+					</div>
+					<!--<div>
+						<a href="{{ settings.homeslider_4_url }}">{{ 'homeslider_4.jpg' | asset_url | img_tag }}</a>
+					</div>
+					<div>
+						<a href="{{ settings.homeslider_5_url }}">{{ 'homeslider_5.jpg' | asset_url | img_tag }}</a>
+					</div>-->
+				</div> <!-- #slider -->
+              	<div class="black-banner">
+                 <span><strong>Free Delivery</strong> On All Orders Over £50</span> <span>Order Before <strong>4PM</strong></span> <strong>Next Day</strong> Delivery Available
+                </div>
+			</div> <!-- #featured-wrap -->
+		</div> <!-- #featured-full-width -->
+	{% endif %}
+
+	
+	{{ content_for_layout }}
+      
+      
+  	</div>
+
+  
+  		<!-- Connect with us -->
+  		<div id="connect-with-us-full-width">
+          <div id="connect-with-us">
+            <h3>Connect with C W Sellors</h3>
+            <span class="social-icon"><a href="https://www.facebook.com/CWSellorsFineJewellery" target="_blank"><i class="fa fa-facebook"></i></a></span>
+            <span class="social-icon"><a href="https://twitter.com/cwsellors" target="_blank"><i class="fa fa-twitter"></i></a></span>
+            <span class="social-icon"><a href="https://www.instagram.com/cwsellors_finejewellery/" target="_blank"><i class="fa fa-instagram"></i></a></span>
+            <span class="social-icon"><a href="https://www.youtube.com/user/CWSELLORS" target="_blank"><i class="fa fa-youtube"></i></a></span>
+            <span class="social-icon"><a href="https://www.pinterest.com/cwsellors/" target="_blank"><i class="fa fa-pinterest"></i></a></span>
+          
+            <div id="trust-pilot-logo"><a href="https://uk.trustpilot.com/review/cwsellors.co.uk" target="_blank">{{ 'trustpilot.png' | asset_url | img_tag }}</a></div>
+          </div>
+  		</div>
+  		<!-- end Connect with us -->
+  
+		<div id="email-signup-full-width">
+		<div id="email-signup-wrap" class="clearfix">
+          
+			<div id="email-signup">
+<!--               <p>Latest Jewellery Offers, new product launches and news<span>Sign-up to our emails to be the first to hear about offers, brands and new product lines</span></p> -->
+              <p>Sign Up for Offers and Events</p>
+              
+              
+              
+              <!-- Begin MailChimp Signup Form -->
+              <div id="mc_embed_signup">
+              <form action="//cwsellors.us7.list-manage.com/subscribe/post?u=6906a3d27ced809e9aca2a479&amp;id=57f9d04f76" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+                  <div id="mc_embed_signup_scroll">
+                    <div class="mc-field-group">
+                        <input type="email" value="Enter your email here" name="EMAIL" class="required email" id="mce-EMAIL" onfocus="if (this.value == 'Enter your email here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Enter your email here';}">
+                    	<input type="submit" value="Signup" name="subscribe" id="mc-embedded-subscribe" class="button">
+                    </div>
+                    <div id="mce-responses" class="clear">
+                        <div class="response" id="mce-error-response" style="display:none"></div>
+                        <div class="response" id="mce-success-response" style="display:none"></div>
+                    </div>    <!-- real people should not fill this in and expect good things - do not remove this or risk form bot signups-->
+                    <div style="position: absolute; left: -5000px;" aria-hidden="true"><input type="text" name="b_6906a3d27ced809e9aca2a479_57f9d04f76" tabindex="-1" value=""></div>
+                    <div class="clear"></div>
+                  </div>
+              </form>
+              </div>
+
+              <!--End mc_embed_signup-->
+              
+              
+              <!-- OLD MAILCHIMP CODE -->
+              <!-- mailchimp start -->
+              <!-- Begin MailChimp Signup Form -->
+<!--<link href="//cdn-images.mailchimp.com/embedcode/classic-081711.css" rel="stylesheet" type="text/css">
+
+
+<form action="https://cwsellors.us7.list-manage.com/subscribe/post?u=6906a3d27ced809e9aca2a479&amp;id=946cf7da79" method="post" id="mc-embedded-subscribe-form" name="mc-embedded-subscribe-form" class="validate" target="_blank" novalidate>
+
+<input type="email" name="EMAIL" value="Enter your email here" onfocus="if (this.value == 'Enter your email here') {this.value = '';}" onblur="if (this.value == '') {this.value = 'Enter your email here';}">
+<input type="submit" value="Signup" name="subscribe" >
+	<div id="mce-responses" class="clear">
+		<div class="response" id="mce-error-response" style="display:none"></div>
+		<div class="response" id="mce-success-response" style="display:none"></div>
+	</div>
+</form>
+
+<script type="text/javascript">
+var fnames = new Array();var ftypes = new Array();fnames[0]='EMAIL';ftypes[0]='email';fnames[1]='FNAME';ftypes[1]='text';fnames[2]='LNAME';ftypes[2]='text';fnames[3]='COMPANY';ftypes[3]='text';fnames[4]='PHONE';ftypes[4]='phone';fnames[5]='ADDRESS';ftypes[5]='address';fnames[6]='LAST_ORDER';ftypes[6]='date';
+try {
+    var jqueryLoaded=jQuery;
+    jqueryLoaded=true;
+} catch(err) {
+    var jqueryLoaded=false;
+}
+var head= document.getElementsByTagName('head')[0];
+if (!jqueryLoaded) {
+    var script = document.createElement('script');
+    script.type = 'text/javascript';
+    script.src = 'http://ajax.googleapis.com/ajax/libs/jquery/1.4.4/jquery.min.js';
+    head.appendChild(script);
+    if (script.readyState && script.onload!==null){
+        script.onreadystatechange= function () {
+              if (this.readyState == 'complete') mce_preload_check();
+        }
+    }
+}
+var script = document.createElement('script');
+script.type = 'text/javascript';
+script.src = 'http://downloads.mailchimp.com/js/jquery.form-n-validate.js';
+head.appendChild(script);
+var err_style = '';
+try{
+    err_style = mc_custom_error_style;
+} catch(e){
+    err_style = '#mc_embed_signup input.mce_inline_error{border-color:#6B0505;} #mc_embed_signup div.mce_inline_error{margin: 0 0 1em 0; padding: 5px 10px; background-color:#6B0505; font-weight: bold; z-index: 1; color:#fff;}';
+}
+var head= document.getElementsByTagName('head')[0];
+var style= document.createElement('style');
+style.type= 'text/css';
+if (style.styleSheet) {
+  style.styleSheet.cssText = err_style;
+} else {
+  style.appendChild(document.createTextNode(err_style));
+}
+head.appendChild(style);
+setTimeout('mce_preload_check();', 250);
+
+var mce_preload_checks = 0;
+function mce_preload_check(){
+    if (mce_preload_checks>40) return;
+    mce_preload_checks++;
+    try {
+        var jqueryLoaded=jQuery;
+    } catch(err) {
+        setTimeout('mce_preload_check();', 250);
+        return;
+    }
+    try {
+        var validatorLoaded=jQuery("#fake-form").validate({});
+    } catch(err) {
+        setTimeout('mce_preload_check();', 250);
+        return;
+    }
+    mce_init_form();
+}
+function mce_init_form(){
+    jQuery(document).ready( function($) {
+      var options = { errorClass: 'mce_inline_error', errorElement: 'div', onkeyup: function(){}, onfocusout:function(){}, onblur:function(){}  };
+      var mce_validator = $("#mc-embedded-subscribe-form").validate(options);
+      $("#mc-embedded-subscribe-form").unbind('submit');//remove the validator so we can get into beforeSubmit on the ajaxform, which then calls the validator
+      options = { url: 'http://cwsellors.us7.list-manage.com/subscribe/post-json?u=6906a3d27ced809e9aca2a479&id=946cf7da79&c=?', type: 'GET', dataType: 'json', contentType: "application/json; charset=utf-8",
+                    beforeSubmit: function(){
+                        $('#mce_tmp_error_msg').remove();
+                        $('.datefield','#mc_embed_signup').each(
+                            function(){
+                                var txt = 'filled';
+                                var fields = new Array();
+                                var i = 0;
+                                $(':text', this).each(
+                                    function(){
+                                        fields[i] = this;
+                                        i++;
+                                    });
+                                $(':hidden', this).each(
+                                    function(){
+                                        var bday = false;
+                                        if (fields.length == 2){
+                                            bday = true;
+                                            fields[2] = {'value':1970};//trick birthdays into having years
+                                        }
+                                    	if ( fields[0].value=='MM' && fields[1].value=='DD' && (fields[2].value=='YYYY' || (bday && fields[2].value==1970) ) ){
+                                    		this.value = '';
+									    } else if ( fields[0].value=='' && fields[1].value=='' && (fields[2].value=='' || (bday && fields[2].value==1970) ) ){
+                                    		this.value = '';
+									    } else {
+									        if (/\[day\]/.test(fields[0].name)){
+    	                                        this.value = fields[1].value+'/'+fields[0].value+'/'+fields[2].value;
+									        } else {
+    	                                        this.value = fields[0].value+'/'+fields[1].value+'/'+fields[2].value;
+	                                        }
+	                                    }
+                                    });
+                            });
+                        return mce_validator.form();
+                    },
+                    success: mce_success_cb
+                };
+      $('#mc-embedded-subscribe-form').ajaxForm(options);
+
+
+    });
+}
+function mce_success_cb(resp){
+    $('#mce-success-response').hide();
+    $('#mce-error-response').hide();
+    if (resp.result=="success"){
+        $('#mce-'+resp.result+'-response').show();
+        $('#mce-'+resp.result+'-response').html(resp.msg);
+        $('#mc-embedded-subscribe-form').each(function(){
+            this.reset();
+    	});
+    } else {
+        var index = -1;
+        var msg;
+        try {
+            var parts = resp.msg.split(' - ',2);
+            if (parts[1]==undefined){
+                msg = resp.msg;
+            } else {
+                i = parseInt(parts[0]);
+                if (i.toString() == parts[0]){
+                    index = parts[0];
+                    msg = parts[1];
+                } else {
+                    index = -1;
+                    msg = resp.msg;
+                }
+            }
+        } catch(e){
+            index = -1;
+            msg = resp.msg;
+        }
+        try{
+            if (index== -1){
+                $('#mce-'+resp.result+'-response').show();
+                $('#mce-'+resp.result+'-response').html(msg);
+            } else {
+                err_id = 'mce_tmp_error_msg';
+                html = '<div id="'+err_id+'" style="'+err_style+'"> '+msg+'</div>';
+
+                var input_id = '#mc_embed_signup';
+                var f = $(input_id);
+                if (ftypes[index]=='address'){
+                    input_id = '#mce-'+fnames[index]+'-addr1';
+                    f = $(input_id).parent().parent().get(0);
+                } else if (ftypes[index]=='date'){
+                    input_id = '#mce-'+fnames[index]+'-month';
+                    f = $(input_id).parent().parent().get(0);
+                } else {
+                    input_id = '#mce-'+fnames[index];
+                    f = $().parent(input_id).get(0);
+                }
+                if (f){
+                    $(f).append(html);
+                    $(input_id).focus();
+                } else {
+                    $('#mce-'+resp.result+'-response').show();
+                    $('#mce-'+resp.result+'-response').html(msg);
+                }
+            }
+        } catch(e){
+            $('#mce-'+resp.result+'-response').show();
+            $('#mce-'+resp.result+'-response').html(msg);
+        }
+    }
+}
+
+</script>-->
+<!--End mc_embed_signup-->
+<!-- END OLD MAILCHIMP CODE -->
+              
+              
+              
+              
+              
+             <!--
+				<input type="text" />
+				<input type="submit" value="signup" />-->
+			</div> <!-- #email-signup -->
+          
+			
+		</div> <!-- #email-signup-wrap -->
+	</div> <!-- #email-signup-full-width -->
+  
+  	<div id="payment-options-full-width">
+      <div id="payment-options" class="colour">
+        {% comment %}
+        {{ 'payment-option-visa.png' | asset_url | img_tag }}
+        {{ 'payment-option-visa-el.png' | asset_url | img_tag }}
+        {{ 'payment-option-maestro.png' | asset_url | img_tag }}
+        {{ 'payment-option-amex.png' | asset_url | img_tag }}
+        {{ 'payment-option-paypal.png' | asset_url | img_tag }}
+        {% endcomment %}
+        
+        {{ 'payment-option-visa-colour.png' | asset_url | img_tag }}
+        {{ 'payment-option-mastercard-colour.png' | asset_url | img_tag }}
+        {{ 'payment-option-maestro-colour.png' | asset_url | img_tag }}
+        {{ 'payment-option-amex-colour.png' | asset_url | img_tag }}
+        {{ 'payment-option-paypal-colour.png' | asset_url | img_tag }}
+      </div> <!-- #payment-options -->
+  	</div>
+  
+  
+	<div id="footer-full-width">
+		<footer>
+			<div class="col-240 footer-links">
+				<h3>about c w sellors</h3>
+				<ul>
+					{% for link in linklists.footer-col-1.links %}
+						<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+					{% endfor %}
+				</ul>
+				<!--<ul class="footer-social-links">
+					<li><a class="facebook" target="_blank" href="http://www.facebook.com/CWSellorsFineJewellery">facebook</a></li>
+					<li><a class="twitter" target="_blank" href="http://twitter.com/cwsellors">twitter</a></li>
+                  	<li><a class="instagram" target="_blank" href="https://instagram.com/cwsellors/?ref=badge">instagram</a></li>
+                 	<li><a class="youtube" target="_blank" href="https://www.youtube.com/user/CWSELLORS">youtube</a></li>-->
+                 	<!--<li><a class="google" href="">google+z</a></li>-->
+				<!--</ul>--> <!-- -->
+			</div>
+			<div class="col-240 footer-links">
+				<h3>C W Sellors Jewellery services</h3>
+				<ul>
+					{% for link in linklists.footer-col-2.links %}
+						<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="col-240 footer-links">
+				<h3>Jewellery & Diamond design services</h3>
+				<ul>
+					{% for link in linklists.footer-col-3.links %}
+						<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div class="col-240 footer-links">
+				<h3>help</h3>
+				<ul>
+					{% for link in linklists.footer-col-4.links %}
+						<li><a href="{{ link.url }}">{{ link.title }}</a></li>
+					{% endfor %}
+				</ul>
+			</div>
+			<div style="clear:both;"></div> <!-- Clearing Div -->
+          
+          	<div class="become-stockist">
+              <a href="https://www.cwsellorsjewellery.co.uk/">Become a CW Sellors Fine Jewellery Stockist </a>
+            </div>
+          
+          	<div id="jewel-assocs">
+          		<img src="{{ 'NAJ-SHORTLISTED-MEMBER.png' | asset_url }}"/>
+			</div> 
+          
+          	<div id="footer-contact">
+              Contact us on <span><a href="tel:01335453453">01335 453 453</a></span> or at: <span><a href="mailto:sales@cwsellors.co.uk">sales@cwsellors.co.uk</a></span>
+          	</div>
+          
+			<div id="footer-info">
+				<p>cw sellors, 2 victoria square, Ashbourne, Debryshire, DE6 1GG<!-- &middot; 01335 342002 &middot; <a href="mailto:info@cwsellors.co.uk">info@cwsellors.co.uk</a>--></p>
+              	<p class="hidden-mobile"><a href="/pages/finance" style="color:#fff;">C W Sellors are a credit broker and are Authorised and Regulated by the Financial Conduct Authority. Credit is provided by Hitachi Personal Finance, a division of Hitachi Capital (UK) PLC Authorised and Regulated by the Financial Conduct Authority.</a></p>
+				
+              	<p><span><a href="/pages/contact">Contact</a> &middot; <a href="/pages/christmas-wishes">Events</a> &middot; <a href="/blogs/c-w-sellors">News</a> &middot; <a href="/pages/store-locator">Store Locator</a></span></p>
+              	<p><span><a href="/pages/terms-conditions">terms &amp; conditions</a> &middot; <a href="/pages/privacy-policy">privacy policy</a> &middot; <a href="/pages/returns">returns</a></span></p>
+			</div> <!-- #footer-info -->
+		</footer>
+	</div> <!-- #footer-full-width -->
+
+	<!-- JavaScript at the bottom for fast page loading -->
+
+
+
+	<!-- scripts  -->
+
+
+
+	<!--Create the data array for the autocomplete code-->
+	<!--Why don't we put this in a separate file? because we can't use the 'paginate' liquid function in an exterior autocompletearray.js file-->
+	<script type="text/javascript">
+		var data = [
+			{% for tag in collections.all.tags %}
+				{text:"{{ tag | escape }}", url:"{{ shop.url }}/collections/all/{{ tag | escape }}"},
+			{% endfor %}
+			{% paginate collections.all.products by 1000 %}
+				{% for product in collections.all.products %}
+					{text:"{{ product.title | escape }}", url:"{{ shop.url }}/products/{{ product.handle }}"},
+				{% endfor %}
+			{% endpaginate %}
+			{% if current_page > 1 %}
+				{% for product in collections.all.products %}
+					{text:"{{ product.title | escape }}", url:"{{ shop.url }}/products/{{ product.handle }}"},
+				{% endfor %}
+			{% endif %}
+			{text:"", url:""}
+		 ];
+
+	jQuery(function() {
+	$("#search_text").autocomplete(data, {
+		matchContains: true,
+		scroll: true,
+		highlight: false,
+		minChars: 2,
+		selectFirst: false,
+		cacheLength:1,
+		formatItem: function(item) {
+			return item.text;
+		}
+	}).result(function(event, item) {
+		location.href = item.url;
+	});
+		});
+
+	</script>
+
+	<!-- scripts concatenated and minified via build script -->
+	{{ 'plugins.js' | asset_url | script_tag }}
+	{{ 'script.js' | asset_url | script_tag }}
+	<!-- end scripts -->
+
+{% include 'mlveda-currencies' %}
+  
+<script type="text/javascript">
+setTimeout(function(){var a=document.createElement("script");
+var b=document.getElementsByTagName("script")[0];
+a.src=document.location.protocol+"//script.crazyegg.com/pages/scripts/0034/6972.js?"+Math.floor(new Date().getTime()/3600000);
+a.async=true;a.type="text/javascript";b.parentNode.insertBefore(a,b)}, 1);
+</script>
+  
+<!-- affiliate window Dwin1 master tag -->
+<script src="https://www.dwin1.com/7154.js" type="text/javascript" defer="defer"></script>
+  
+{% include 'sca-quick-view-template' %} 
+ 
+<!-- spurit_uev-added -->
+{% include 'spurit_uev-theme-snippet' %}
+<!-- /spurit_uev-added -->
+
+</body>
+</html>

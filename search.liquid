@@ -1,0 +1,159 @@
+<div id="main-content-full-width">
+  <div id="main-content-wrap">
+       
+    <!-- Content -->
+    <section id="search_results" class="collection">
+        {% paginate search.results by 250 %}
+          <!-- Title -->
+          <header>
+            <h2 class="search">SEARCH RESULTS FOR {{ search.terms | remove: ' AND -vendor:Archive AND -tag:Insurance' }}</h2>
+          </header>
+          <!-- end Title -->
+          <div class="cl">&nbsp;</div>
+        <!-- Product -->
+        <div id="products-list-container" class="clearfix">
+          <div id="product-list" class="clearfix" data-group="1">
+                  {% for item in search.results %}
+                
+                
+                    {% comment %}Check if product is discontinued{% endcomment %}
+                    {% assign is_archive = false %}
+                    {% if item.vendor == 'Archive' %}
+                      {% assign is_archive = true %}
+                    {% endif %}
+                                  
+                
+                    {% unless is_archive %}                  
+                
+                        {% if item.featured_image %}
+
+                            <div class="product col-240">
+                              <a href="{{ item.url }}">
+                                  <div class="img-container">
+                                      <img src="{{ item.featured_image | product_img_url: 'original' }}" alt="{{ item.title | escape }}" />
+                                  </div> <!-- .img-container -->
+                                  <p>{{ item.title }}</p>
+                                  {% if item.tags contains 'sale' %}
+                                      <img src="{{ 'sticker-small-sale.png' | asset_url }}" class="sale" alt="On Sale" />
+                                  {% endif %}
+                                  {% if item.tags contains 'limited' %}
+                                      <img src="{{ 'sticker-ribbon-small-limited.png' | asset_url }}" class="limited" alt="Limited Stock" />
+                                  {% endif %}
+                                  {% if item.tags contains 'new' %}
+                                      <img src="{{ 'sticker-small-new.png' | asset_url }}" class="new" alt="New item" />
+                                      <div class="new">New</div>
+                                  {% endif %}
+                                  {% if item.tags contains 'in stock' %}
+                                      <img src="{{ 'sticker-text-in-stock.png' | asset_url }}" class="in-stock" alt="In stock" />
+                                  {% endif %}
+                              </a>
+
+                                {% assign is_gift_card = false %}
+                                {% for collection in item.collections %}
+                                  {% if is_gift_card == false and collection.title == 'Gift Cards' %}
+                                    {% assign is_gift_card = true %}
+                                  {% endif %}
+                                {% endfor %}
+
+                                {% assign is_pre_owned = false %}
+                                {% for collection in item.collections %}
+                                  {% if is_pre_owned == false and collection.title == 'Pre-Owned Watches' %}
+                                    {% assign is_pre_owned = true %}
+                                  {% endif %}
+                                {% endfor %}
+
+
+                                {% assign vat_exempt = false %}
+                                {% for tag in item.tags %}
+                                  {% if vat_exempt == false and tag == 'VAT Exempt' %}
+                                    {% assign vat_exempt = true %}
+                                  {% endif %}
+                                {% endfor %} 
+
+                                {% if is_gift_card or is_pre_owned or vat_exempt %}
+                                    <p class="price">{{ item.price | money }}</p>
+                                {% else %}
+                                    <p class="price"><span>{% if item.compare_at_price  > item.price and  item.variants.first.inventory_quantity <= 0  %}{{ item.compare_at_price | times:settings.vatrate | money }}{% elsif item.price > 0  %}{{ item.price | times:settings.vatrate | money }}{% else %} POA {% endif %}</span></p>
+                                {% endif %}
+
+                                <p class="brand-image"><img src="{{ brndimg |  append: '.jpg' | asset_url }}" alt="" /></p>
+                            </div>
+
+                        {% else %}
+                            <div class="product col-240">
+                                <p class="product-name"><a href="{{ item.url }}">{{ item.title }}</a></p>
+                                <br/>
+                                <p class="product-name">{{ item.content | strip_html | strip_newlines | truncate: 520 | highlight: search.terms }}</p>
+                                <br/>
+                                <p class="product-name"><a href="{{ item.url }}">Read More</a></p>
+                            </div>
+                        {% endif %}
+                
+                    {% endunless %}
+                     
+                  {% endfor %}
+          </div>
+        </div>
+        <!-- end Product -->
+        <div class="cl">&nbsp;</div>
+        <!-- Bottom Nav -->
+        <div class="bottom-bav">
+          {% if paginate.pages > 1 %}
+                      <p>FOUND {{ paginate.items }} ITEMS</p>
+                          <a href="{{ paginate.previous.url }}">&lt;&lt; Prev</a>   
+                              <ul>
+                                  {% for part in paginate.parts %}
+                                      {% if part.is_link %}
+                                          <li>{{ part.title | link_to: part.url }}</li>
+                                      {% else %} 
+                                          <li>{{ part.title }}</li>
+                                      {% endif %}    
+                                  {% endfor %}
+                              </ul>
+                          <a href="{{ paginate.next.url }}">Next &gt;&gt;</a>
+                      {% else %}
+                          <p>FOUND {{ paginate.items }} ITEMS</p>
+                      {% endif %}
+          <div class="cl">&nbsp;</div>
+                       {% endpaginate %}           
+    </section>
+    <!-- end Content -->
+    <div class="cl">&nbsp;</div>
+
+  </div>       
+</div>
+<script type="text/x-underscore" id="searchTemplate">
+  <% _.each(items_group,function(item,key,list){ %>
+         <div class="product col-240" style="display:none;">
+           <a href="<%= item.url %>">
+             <div class="img-container">
+                 <img src="<%= item.image %>" alt="<%= item.title %>" />
+             </div>
+             <p><%= item.title %></p>
+             
+             <% if(item.tags && item.tags.indexOf('sale') >= 0) { %>
+                    <img src="{{ 'sticker-small-sale.png' | asset_url }}" class="sale" alt="On Sale" />
+             <% } %>
+             <% if(item.tags && item.tags.indexOf('limited') >= 0) { %>
+                    <img src="{{ 'sticker-ribbon-small-limited.png' | asset_url }}" class="limited" alt="Limited Stock" />
+             <% } %>
+             <% if(item.tags && item.tags.indexOf('new') >= 0) { %>
+                    <div class="new">New</div>
+             <% } %>
+             <% if(item.tags && item.tags.indexOf('in stock') >= 0) { %>
+                    <img src="{{ 'sticker-text-in-stock.png' | asset_url }}" class="in-stock" alt="In stock" />
+             <% } %>
+           </a>
+           
+           <% if(item.tags && item.tags.indexOf('poa') >= 0) { %>
+             <p class="price">POA</p>
+           <% } else if (item.gift_card) { %>
+             <p class="price"><%= item.money %></p>
+           <% } else { %>
+             <p class="price"><%= item.vat_rate_price %></p>
+           <% } %>
+         </div>
+  <% }); %>
+</script>
+
+<!-- end main -->
